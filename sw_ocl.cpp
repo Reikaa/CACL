@@ -144,7 +144,7 @@ string OCLAligner::align_query(string query)
     }
     // BACKTRACK
     unsigned int endCol = bestCol;
-    while (bestScore > 0)
+    while (bestScore > 0 && bestRow > 0 && bestCol > 0)
     {
         // END OF THE ROAD
         //if (backpointers[bestRow*reference.size() + bestCol] == 0)
@@ -306,7 +306,7 @@ int OCLAligner::setup_context()
     devices = (cl_device_id *)malloc(dev_count * sizeof(cl_device_id));
     err_num = clGetDeviceIDs(plat, CL_DEVICE_TYPE_GPU, dev_count, devices, NULL);
 
-    device = devices[1]; // XXX set back down to 0
+    device = devices[0]; // XXX set back down to 0
     if (err_num != CL_SUCCESS)
     {
         cout << "Dev fail" << endl;
