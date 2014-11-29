@@ -85,7 +85,7 @@ void print_help()
 int read_ref_seq(string in_file_name, string &ref_seq, string *query_seqs)
 {
 
-    ifstream in_file(in_file_name);
+    ifstream in_file(in_file_name.c_str());
     string this_line;
     // For ref:
     int num_seqs = 0;

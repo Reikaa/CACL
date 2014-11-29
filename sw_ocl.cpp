@@ -143,7 +143,7 @@ string OCLAligner::align_query(string query)
         //cout << endl;
     }
     // BACKTRACK
-    int endCol = bestCol;
+    unsigned int endCol = bestCol;
     while (bestScore > 0)
     {
         // END OF THE ROAD
@@ -188,7 +188,7 @@ string OCLAligner::align_query(string query)
         alignedQuery += "-";
         bestCol -= 1;
     }
-    for (int i = 0; i < alignedQuery.size()/2; i++)
+    for (unsigned int i = 0; i < alignedQuery.size()/2; i++)
     {
         char temp = alignedQuery[i];
         alignedQuery[i] = alignedQuery[alignedQuery.size() - 1 - i];

@@ -46,9 +46,9 @@ string SWAligner::align_query(string query)
     char* backpointers = new char[query.size() * reference.size()];
     gettimeofday(&t1, NULL);
     // ALIGN
-    for (int row = 0; row < query.size(); row++)
+    for (unsigned int row = 0; row < query.size(); row++)
     {
-        for (int col = 0; col < reference.size(); col++)
+        for (unsigned int col = 0; col < reference.size(); col++)
         {
             //int start = 0;
             //int bestScore = start;
@@ -121,9 +121,9 @@ string SWAligner::align_query(string query)
     int bestScore = 0;
     int bestRow = 0;
     int bestCol = 0;
-    for (int row = 0; row < query.size(); row++)
+    for (unsigned int row = 0; row < query.size(); row++)
     {
-        for (int col = 0; col < reference.size(); col++)
+        for (unsigned int col = 0; col < reference.size(); col++)
         {
             if (swarray[row*reference.size() + col] > bestScore)
             {
@@ -136,7 +136,7 @@ string SWAligner::align_query(string query)
         //cout << endl;
     }
     // BACKTRACK
-    int endCol = bestCol;
+    unsigned int endCol = bestCol;
     while (bestScore > 0)
     {
         // END OF THE ROAD
@@ -173,7 +173,7 @@ string SWAligner::align_query(string query)
         alignedQuery += "-";
         bestCol -= 1;
     }
-    for (int i = 0; i < alignedQuery.size()/2; i++)
+    for (unsigned int i = 0; i < alignedQuery.size()/2; i++)
     {
         char temp = alignedQuery[i];
         alignedQuery[i] = alignedQuery[alignedQuery.size() - 1 - i];
