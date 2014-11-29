@@ -6,14 +6,15 @@ endif
 
 flags = -O3
 # omp and clang don't get along
-all_flags = -O3 -Wall -Werror -Wno-unknown-pragmas
+#all_flags = -O3 -Wall -Werror -Wno-unknown-pragmas
+all_flags = -O3 -Wall -Wno-unknown-pragmas
 
 .PHONY: all clean
 all: cpu ocl
 
-core_objs = swocl.o
-cpu_objs = sw_aligner.o
-gpu_objs = sw_ocl.o
+#core_objs = sw.o
+cpu_objs = sw_cpu_main.o sw_cpu.o
+gpu_objs = sw_ocl_main.o sw_ocl.o
 
 
 ###### CPU Version ######
@@ -22,7 +23,8 @@ gpu_objs = sw_ocl.o
 #sw_aligner.o: sw_aligner.cpp
 #    $(CXX) $(flags) -c -o sw_aligner.o sw_aligner.cpp
 
-cpu: $(core_objs) $(cpu_objs)
+#cpu: $(core_objs) $(cpu_objs)
+cpu: $(cpu_objs)
 	$(CXX) $(flags) -o swcpu $^
 
 ###### GPU Version ######
@@ -38,7 +40,8 @@ endif
 #swocl.o: swocl.cpp
 	#$(CXX) $(flags) -c -o $@ $<
 
-ocl: $(gpu_objs) $(core_objs)
+#ocl: $(gpu_objs) $(core_objs)
+ocl: $(gpu_objs)
 	$(CXX) $(flags) -o swocl $^ $(ocl_lib)
 
 ###### ETC ######

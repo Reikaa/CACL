@@ -1,6 +1,7 @@
 
 #include "sw_cpu.h"
 #include <iostream>
+#include <sys/time.h>
 using namespace std;
 
 SWAligner::SWAligner()
@@ -39,8 +40,11 @@ string SWAligner::align_query(string query)
     // XXX Does this need to be a private variable. Can it just be made and
     // destroyed here?
     string alignedQuery = "";
+    float runtime = 0;
+    timeval t1, t2;
     swarray = new int[query.size() * reference.size()];
     char* backpointers = new char[query.size() * reference.size()];
+    gettimeofday(&t1, NULL);
     // ALIGN
     for (int row = 0; row < query.size(); row++)
     {
@@ -98,6 +102,20 @@ string SWAligner::align_query(string query)
             backpointers[row*reference.size() + col] = bestSource;
         }
     }
+    gettimeofday(&t2, NULL);
+    runtime += (t2.tv_sec -t1.tv_sec) * 1000.0;
+    runtime += (t2.tv_usec - t1.tv_usec) / 1000.0;
+    cout << "Core time: " << runtime << endl;
+    /*
+    for (int row = 0; row < query.size(); row++)
+    {
+        for (int col = 0; col < reference.size(); col++)
+        {
+          cout << swarray[row*reference.size() + col] << ", ";
+        }
+        cout << endl;
+    }
+    */
 
     // FIND THE END
     int bestScore = 0;
@@ -165,6 +183,10 @@ string SWAligner::align_query(string query)
     {
         alignedQuery += "-";
         endCol += 1;
+    }
+    if (alignedQuery.size() < reference.size())
+    {
+        alignedQuery.insert(0, "-");
     }
     return alignedQuery;
 }
